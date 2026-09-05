@@ -31,7 +31,7 @@ export default function SearchTab({ shows, onAdd }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t.search.placeholder}
-          className="flex-1 rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
+          className="flex-1 rounded-lg bg-white border border-[var(--pink-soft)]/75 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
         />
         <button
           type="submit"
@@ -50,7 +50,7 @@ export default function SearchTab({ shows, onAdd }) {
           return (
             <div
               key={show.id}
-              className="bg-white rounded-lg overflow-hidden flex flex-col border border-[var(--pink-soft)]/30"
+              className="bg-white rounded-lg overflow-hidden flex flex-col border border-[var(--pink-soft)]/55"
             >
               <div className="aspect-[2/3] bg-[var(--blue-pastel)]/30">
                 {show.poster_path && (
@@ -69,7 +69,7 @@ export default function SearchTab({ shows, onAdd }) {
                 <button
                   onClick={() => onAdd(show)}
                   disabled={alreadyAdded}
-                  className="mt-auto rounded-md bg-[var(--pink)] hover:bg-[var(--pink)]/85 disabled:bg-[var(--pink-soft)]/40 disabled:text-[var(--navy)]/50 text-white text-sm py-1.5 transition-colors"
+                  className="mt-auto rounded-md bg-[var(--pink)] hover:bg-[var(--pink)]/85 disabled:bg-[var(--pink-soft)]/65 disabled:text-[var(--navy)]/50 text-white text-sm py-1.5 transition-colors"
                 >
                   {alreadyAdded ? t.search.inList : t.search.add}
                 </button>

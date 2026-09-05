@@ -33,7 +33,7 @@ export default function StatsTab({ shows }) {
         {topShows.map((show) => (
           <div
             key={show.id}
-            className="flex items-center justify-between bg-white border border-[var(--pink-soft)]/30 rounded-lg px-4 py-3"
+            className="flex items-center justify-between bg-white border border-[var(--pink-soft)]/55 rounded-lg px-4 py-3"
           >
             <span className="text-sm font-medium text-[var(--navy)]">{show.name}</span>
             <span className="text-xs text-[var(--navy)]/50">
@@ -48,7 +48,7 @@ export default function StatsTab({ shows }) {
 
 function StatCard({ label, value }) {
   return (
-    <div className="bg-white border border-[var(--pink-soft)]/30 rounded-lg p-4 text-center">
+    <div className="bg-white border border-[var(--pink-soft)]/55 rounded-lg p-4 text-center">
       <p className="text-2xl font-semibold text-[var(--navy)]">{value}</p>
       <p className="text-xs text-[var(--navy)]/50 mt-1">{label}</p>
     </div>

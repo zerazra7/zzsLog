@@ -27,7 +27,7 @@ export default function ResetPassword({ onDone }) {
 
   return (
     <div className="min-h-svh flex items-center justify-center bg-[var(--cream)] px-4">
-      <div className="w-full max-w-sm bg-white border border-[var(--pink-soft)]/40 rounded-xl p-6">
+      <div className="w-full max-w-sm bg-white border border-[var(--pink-soft)]/65 rounded-xl p-6">
         <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">{t.appName}</h1>
         <p className="text-sm text-[var(--navy)]/50 text-center mb-6">{t.reset.title}</p>
 

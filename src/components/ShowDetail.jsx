@@ -42,8 +42,8 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
 
   return (
     <div className="fixed inset-0 bg-[var(--navy)]/60 flex items-start justify-center overflow-y-auto z-50 p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full my-8 border border-[var(--pink-soft)]/50">
-        <div className="flex items-center justify-between p-4 border-b border-[var(--pink-soft)]/30">
+      <div className="bg-white rounded-xl max-w-2xl w-full my-8 border border-[var(--pink-soft)]/75">
+        <div className="flex items-center justify-between p-4 border-b border-[var(--pink-soft)]/55">
           <div>
             <h2 className="text-lg font-semibold text-[var(--navy)]">{show.name}</h2>
             <p className="text-xs text-[var(--navy)]/50">
@@ -59,7 +59,7 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
             </button>
             <button
               onClick={onClose}
-              className="text-[var(--navy)]/60 hover:text-[var(--navy)] px-3 py-1.5 rounded-md border border-[var(--pink-soft)]/50"
+              className="text-[var(--navy)]/60 hover:text-[var(--navy)] px-3 py-1.5 rounded-md border border-[var(--pink-soft)]/75"
             >
               {t.detail.close}
             </button>
@@ -78,7 +78,7 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
                     className={`px-3 py-1.5 rounded-md text-sm border transition-colors ${
                       seasonNumber === s.season_number
                         ? 'bg-[var(--navy)] border-[var(--navy)] text-white'
-                        : 'border-[var(--pink-soft)]/50 text-[var(--navy)] hover:border-[var(--pink)]'
+                        : 'border-[var(--pink-soft)]/75 text-[var(--navy)] hover:border-[var(--pink)]'
                     }`}
                   >
                     {s.name}
@@ -113,8 +113,8 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
                   key={ep.id}
                   className={`flex gap-3 items-start p-2.5 rounded-lg border cursor-pointer transition-colors ${
                     watched
-                      ? 'border-[var(--pink)] bg-[var(--pink-soft)]/15'
-                      : 'border-[var(--pink-soft)]/30 hover:border-[var(--pink-soft)]'
+                      ? 'border-[var(--pink)] bg-[var(--pink-soft)]/55'
+                      : 'border-[var(--pink-soft)]/55 hover:border-[var(--pink-soft)]'
                   }`}
                 >
                   <input

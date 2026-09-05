@@ -21,7 +21,7 @@ export default function MyShowsTab({ shows, onSelect }) {
         <button
           key={show.id}
           onClick={() => onSelect(show)}
-          className="bg-white rounded-lg overflow-hidden text-left border border-[var(--pink-soft)]/30 hover:ring-2 hover:ring-[var(--pink)] transition-all"
+          className="bg-white rounded-lg overflow-hidden text-left border border-[var(--pink-soft)]/55 hover:ring-2 hover:ring-[var(--pink)] transition-all"
         >
           <div className="aspect-[2/3] bg-[var(--blue-pastel)]/30">
             {show.poster_path && (

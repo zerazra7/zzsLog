@@ -87,7 +87,7 @@ function App() {
   ]
 
   return (
-    <div className="min-h-svh flex flex-col bg-[var(--cream)]">
+    <div className="min-h-svh flex flex-col bg-[var(--sky)]">
       <header className="px-4 py-4 sticky top-0 bg-[var(--navy)] z-10 flex items-baseline justify-center gap-2">
         <h1 className="text-xl font-semibold text-white">{t.appName}</h1>
         <span className="text-sm text-[var(--blue-pastel)]">{t.greeting}</span>

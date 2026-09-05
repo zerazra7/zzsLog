@@ -2,11 +2,12 @@
 
 :root {
   color-scheme: light dark;
-  --navy: #203f9a;
+  --navy: #1b2a4a;
   --navy-soft: #4e7cb2;
   --blue-pastel: #94c2da;
+  --sky: #f4f6f8;
   --pink: #e84797;
-  --pink-soft: #e7a0cc;
+  --pink-soft: #e388bc;
   --cream: #efe8e0;
 }
 

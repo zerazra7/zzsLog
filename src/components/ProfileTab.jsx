@@ -6,12 +6,12 @@ export default function ProfileTab({ email }) {
 
   return (
     <div className="max-w-md mx-auto px-4 py-6">
-      <div className="bg-white border border-[var(--pink-soft)]/30 rounded-lg p-4 mb-4">
+      <div className="bg-white border border-[var(--pink-soft)]/55 rounded-lg p-4 mb-4">
         <p className="text-xs text-[var(--navy)]/50 mb-1">{t.profile.emailLabel}</p>
         <p className="text-sm font-medium text-[var(--navy)]">{email}</p>
       </div>
 
-      <div className="bg-white border border-[var(--pink-soft)]/30 rounded-lg p-4 mb-4">
+      <div className="bg-white border border-[var(--pink-soft)]/55 rounded-lg p-4 mb-4">
         <p className="text-xs text-[var(--navy)]/50 mb-2">{t.profile.language}</p>
         <div className="flex gap-2">
           <button
@@ -19,7 +19,7 @@ export default function ProfileTab({ email }) {
             className={`flex-1 py-2 rounded-md text-sm border transition-colors ${
               lang === 'tr'
                 ? 'bg-[var(--navy)] border-[var(--navy)] text-white'
-                : 'border-[var(--pink-soft)]/50 text-[var(--navy)] hover:border-[var(--pink)]'
+                : 'border-[var(--pink-soft)]/75 text-[var(--navy)] hover:border-[var(--pink)]'
             }`}
           >
             Türkçe
@@ -29,7 +29,7 @@ export default function ProfileTab({ email }) {
             className={`flex-1 py-2 rounded-md text-sm border transition-colors ${
               lang === 'en'
                 ? 'bg-[var(--navy)] border-[var(--navy)] text-white'
-                : 'border-[var(--pink-soft)]/50 text-[var(--navy)] hover:border-[var(--pink)]'
+                : 'border-[var(--pink-soft)]/75 text-[var(--navy)] hover:border-[var(--pink)]'
             }`}
           >
             English

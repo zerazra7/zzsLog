@@ -12,7 +12,7 @@ export default function PasswordInput({ value, onChange, placeholder, className 
         value={value}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full rounded-lg bg-white border border-[var(--pink-soft)]/50 pl-4 pr-10 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)] ${className}`}
+        className={`w-full rounded-lg bg-white border border-[var(--pink-soft)]/75 pl-4 pr-10 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)] ${className}`}
       />
       <button
         type="button"
