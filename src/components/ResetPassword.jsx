@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useLanguage } from '../lib/i18n'
 import PasswordInput from './PasswordInput'
+import LanguageToggle from './LanguageToggle'
 
 export default function ResetPassword({ onDone }) {
   const { t } = useLanguage()
@@ -28,6 +29,9 @@ export default function ResetPassword({ onDone }) {
   return (
     <div className="min-h-svh flex items-center justify-center bg-[var(--cream)] px-4">
       <div className="w-full max-w-sm bg-white border border-[var(--pink-soft)]/65 rounded-xl p-6">
+        <div className="flex justify-end mb-2">
+          <LanguageToggle />
+        </div>
         <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">{t.appName}</h1>
         <p className="text-sm text-[var(--navy)]/50 text-center mb-6">{t.reset.title}</p>
 
