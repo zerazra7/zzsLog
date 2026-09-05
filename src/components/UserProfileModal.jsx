@@ -4,6 +4,7 @@ import { fetchWallMessages, postWallMessage, displayName } from '../lib/socialAp
 import { countWatchedEpisodes, totalMinutesWatched } from '../lib/storage'
 import { IMG_BASE } from '../lib/tmdb'
 import { useLanguage } from '../lib/i18n'
+import ShowPreviewModal from './ShowPreviewModal'
 
 export default function UserProfileModal({ profile, myId, profiles, myShows, onAdd, onClose }) {
   const { t } = useLanguage()
@@ -11,6 +12,7 @@ export default function UserProfileModal({ profile, myId, profiles, myShows, onA
   const [messages, setMessages] = useState([])
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(true)
+  const [previewShow, setPreviewShow] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -72,9 +74,8 @@ export default function UserProfileModal({ profile, myId, profiles, myShows, onA
                 return (
                   <button
                     key={show.id}
-                    onClick={() => !alreadyAdded && onAdd?.(show)}
-                    disabled={alreadyAdded || !onAdd}
-                    title={alreadyAdded ? `${show.name} — ${t.search.inList}` : `${show.name} — ${t.search.add}`}
+                    onClick={() => setPreviewShow(show)}
+                    title={show.name}
                     className="group relative aspect-[2/3] rounded-md overflow-hidden bg-[var(--blue-pastel)]/30 border border-[var(--pink-soft)]/40"
                   >
                     {show.poster_path && (
@@ -83,11 +84,6 @@ export default function UserProfileModal({ profile, myId, profiles, myShows, onA
                         alt={show.name}
                         className="w-full h-full object-cover"
                       />
-                    )}
-                    {!alreadyAdded && onAdd && (
-                      <span className="absolute inset-0 flex items-center justify-center bg-[var(--navy)]/0 group-hover:bg-[var(--navy)]/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-all text-center px-1">
-                        {t.search.add}
-                      </span>
                     )}
                     {alreadyAdded && (
                       <span className="absolute bottom-0 inset-x-0 bg-[var(--navy)]/70 text-white text-[10px] text-center py-0.5">
@@ -134,6 +130,18 @@ export default function UserProfileModal({ profile, myId, profiles, myShows, onA
           </div>
         </div>
       </div>
+
+      {previewShow && (
+        <ShowPreviewModal
+          show={previewShow}
+          alreadyAdded={Boolean(myShows?.[previewShow.id])}
+          onAdd={(show) => {
+            onAdd?.(show)
+            setPreviewShow(null)
+          }}
+          onClose={() => setPreviewShow(null)}
+        />
+      )}
     </div>
   )
 }
