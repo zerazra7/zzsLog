@@ -7,6 +7,7 @@ import Auth from './components/Auth'
 import ResetPassword from './components/ResetPassword'
 import ProfileTab from './components/ProfileTab'
 import PeopleTab from './components/PeopleTab'
+import WelcomeModal from './components/WelcomeModal'
 import { supabase } from './lib/supabaseClient'
 import {
   fetchShowsForUser,
@@ -26,6 +27,7 @@ function App() {
   const [tab, setTab] = useState('shows')
   const [selectedId, setSelectedId] = useState(null)
   const [passwordRecovery, setPasswordRecovery] = useState(false)
+  const [showWelcome, setShowWelcome] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
@@ -41,10 +43,18 @@ function App() {
   useEffect(() => {
     if (session) {
       fetchShowsForUser(session.user.id).then(setShows).catch(console.error)
+      if (!localStorage.getItem('zzslog:welcomeSeen')) {
+        setShowWelcome(true)
+      }
     } else {
       setShows({})
     }
   }, [session])
+
+  function handleCloseWelcome() {
+    localStorage.setItem('zzslog:welcomeSeen', '1')
+    setShowWelcome(false)
+  }
 
   if (session === undefined) {
     return <div className="min-h-svh bg-[var(--cream)]" />
@@ -161,6 +171,8 @@ function App() {
           onToggleFavorite={handleToggleFavorite}
         />
       )}
+
+      {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
     </div>
   )
 }
