@@ -101,7 +101,9 @@ function App() {
           <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
         )}
         {tab === 'stats' && <StatsTab shows={shows} />}
-        {tab === 'people' && <PeopleTab myId={session.user.id} />}
+        {tab === 'people' && (
+          <PeopleTab myId={session.user.id} myShows={shows} onAdd={handleAdd} />
+        )}
         {tab === 'profile' && <ProfileTab email={session.user.email} myId={session.user.id} />}
       </main>
 

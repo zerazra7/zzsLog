@@ -31,7 +31,9 @@ export async function insertShow(userId, show) {
       tmdb_id: show.id,
       name: show.name,
       poster_path: show.poster_path,
-      episode_run_time: show.episode_run_time?.[0] ?? 30,
+      episode_run_time: Array.isArray(show.episode_run_time)
+        ? (show.episode_run_time[0] ?? 30)
+        : (show.episode_run_time ?? 30),
       watched: {},
     })
     .select()

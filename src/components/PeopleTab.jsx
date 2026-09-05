@@ -3,7 +3,7 @@ import { listProfiles, displayName } from '../lib/socialApi'
 import { useLanguage } from '../lib/i18n'
 import UserProfileModal from './UserProfileModal'
 
-export default function PeopleTab({ myId }) {
+export default function PeopleTab({ myId, myShows, onAdd }) {
   const { t } = useLanguage()
   const [profiles, setProfiles] = useState([])
   const [selected, setSelected] = useState(null)
@@ -36,6 +36,8 @@ export default function PeopleTab({ myId }) {
           profile={selected}
           myId={myId}
           profiles={profiles}
+          myShows={myShows}
+          onAdd={onAdd}
           onClose={() => setSelected(null)}
         />
       )}

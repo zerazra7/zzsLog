@@ -5,7 +5,7 @@ import { countWatchedEpisodes, totalMinutesWatched } from '../lib/storage'
 import { IMG_BASE } from '../lib/tmdb'
 import { useLanguage } from '../lib/i18n'
 
-export default function UserProfileModal({ profile, myId, profiles, onClose }) {
+export default function UserProfileModal({ profile, myId, profiles, myShows, onAdd, onClose }) {
   const { t } = useLanguage()
   const [shows, setShows] = useState({})
   const [messages, setMessages] = useState([])
@@ -67,21 +67,36 @@ export default function UserProfileModal({ profile, myId, profiles, onClose }) {
 
           {list.length > 0 && (
             <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-6">
-              {list.map((show) => (
-                <div
-                  key={show.id}
-                  className="aspect-[2/3] rounded-md overflow-hidden bg-[var(--blue-pastel)]/30 border border-[var(--pink-soft)]/40"
-                  title={show.name}
-                >
-                  {show.poster_path && (
-                    <img
-                      src={IMG_BASE + show.poster_path}
-                      alt={show.name}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
-                </div>
-              ))}
+              {list.map((show) => {
+                const alreadyAdded = Boolean(myShows?.[show.id])
+                return (
+                  <button
+                    key={show.id}
+                    onClick={() => !alreadyAdded && onAdd?.(show)}
+                    disabled={alreadyAdded || !onAdd}
+                    title={alreadyAdded ? `${show.name} — ${t.search.inList}` : `${show.name} — ${t.search.add}`}
+                    className="group relative aspect-[2/3] rounded-md overflow-hidden bg-[var(--blue-pastel)]/30 border border-[var(--pink-soft)]/40"
+                  >
+                    {show.poster_path && (
+                      <img
+                        src={IMG_BASE + show.poster_path}
+                        alt={show.name}
+                        className="w-full h-full object-cover"
+                      />
+                    )}
+                    {!alreadyAdded && onAdd && (
+                      <span className="absolute inset-0 flex items-center justify-center bg-[var(--navy)]/0 group-hover:bg-[var(--navy)]/60 text-white text-[11px] font-medium opacity-0 group-hover:opacity-100 transition-all text-center px-1">
+                        {t.search.add}
+                      </span>
+                    )}
+                    {alreadyAdded && (
+                      <span className="absolute bottom-0 inset-x-0 bg-[var(--navy)]/70 text-white text-[10px] text-center py-0.5">
+                        ✓
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
             </div>
           )}
 
