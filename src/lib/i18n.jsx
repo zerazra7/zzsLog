@@ -5,7 +5,7 @@ const STORAGE_KEY = 'zzslog:lang'
 const translations = {
   tr: {
     appName: 'zzsLog',
-    greeting: 'Selam tatlım',
+    greeting: 'Selam tatlım :>',
     tabs: { shows: 'Dizilerim', search: 'Ara', stats: 'İstatistik', profile: 'Profilim' },
     auth: {
       signInTitle: 'Hesabına giriş yap',
@@ -67,7 +67,7 @@ const translations = {
   },
   en: {
     appName: 'zzsLog',
-    greeting: 'ello sweeetie',
+    greeting: 'Hello sweeetie :>',
     tabs: { shows: 'My Shows', search: 'Search', stats: 'Stats', profile: 'Profile' },
     auth: {
       signInTitle: 'Sign in to your account',
