@@ -13,6 +13,26 @@ export async function listProfiles() {
   return data
 }
 
+export async function listProfilesByActivity() {
+  const [{ data: profiles, error: profilesError }, { data: showRows, error: showsError }] =
+    await Promise.all([
+      supabase.from('profiles').select('*'),
+      supabase.from('shows').select('user_id, updated_at'),
+    ])
+  if (profilesError) throw profilesError
+  if (showsError) throw showsError
+
+  const lastActivity = {}
+  for (const row of showRows) {
+    const t = new Date(row.updated_at).getTime()
+    if (!lastActivity[row.user_id] || t > lastActivity[row.user_id]) {
+      lastActivity[row.user_id] = t
+    }
+  }
+
+  return [...profiles].sort((a, b) => (lastActivity[b.id] ?? 0) - (lastActivity[a.id] ?? 0))
+}
+
 export async function updateNickname(userId, nickname) {
   const { data, error } = await supabase
     .from('profiles')

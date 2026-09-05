@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { listProfiles, displayName } from '../lib/socialApi'
+import { listProfilesByActivity, displayName } from '../lib/socialApi'
 import { useLanguage } from '../lib/i18n'
 import UserProfileModal from './UserProfileModal'
 
@@ -9,7 +9,7 @@ export default function PeopleTab({ myId, myShows, onAdd }) {
   const [selected, setSelected] = useState(null)
 
   useEffect(() => {
-    listProfiles().then(setProfiles).catch(console.error)
+    listProfilesByActivity().then(setProfiles).catch(console.error)
   }, [])
 
   const others = profiles.filter((p) => p.id !== myId)

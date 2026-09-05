@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useLanguage } from '../lib/i18n'
 import { listProfiles, fetchWallMessages, updateNickname, displayName } from '../lib/socialApi'
+import { fetchShowsForUser } from '../lib/showsApi'
+import { IMG_BASE } from '../lib/tmdb'
 
 export default function ProfileTab({ email, myId }) {
   const { lang, setLang, t } = useLanguage()
@@ -9,13 +11,17 @@ export default function ProfileTab({ email, myId }) {
   const [profiles, setProfiles] = useState([])
   const [nickname, setNickname] = useState('')
   const [savedFlash, setSavedFlash] = useState(false)
+  const [favorites, setFavorites] = useState([])
 
   useEffect(() => {
-    Promise.all([fetchWallMessages(myId), listProfiles()]).then(([msgs, profs]) => {
-      setMessages(msgs)
-      setProfiles(profs)
-      setNickname(profs.find((p) => p.id === myId)?.nickname ?? '')
-    })
+    Promise.all([fetchWallMessages(myId), listProfiles(), fetchShowsForUser(myId)]).then(
+      ([msgs, profs, showsMap]) => {
+        setMessages(msgs)
+        setProfiles(profs)
+        setNickname(profs.find((p) => p.id === myId)?.nickname ?? '')
+        setFavorites(Object.values(showsMap).filter((s) => s.isFavorite))
+      },
+    )
   }, [myId])
 
   function authorLabel(authorId) {
@@ -90,6 +96,29 @@ export default function ProfileTab({ email, myId }) {
       >
         {t.profile.signOut}
       </button>
+
+      <h3 className="text-sm font-semibold text-[var(--navy)]/60 mb-2">{t.profile.favoritesTitle}</h3>
+      {favorites.length > 0 ? (
+        <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 mb-6">
+          {favorites.map((show) => (
+            <div
+              key={show.id}
+              title={show.name}
+              className="aspect-[2/3] rounded-md overflow-hidden bg-[var(--blue-pastel)]/30 border border-[var(--pink-soft)]/40"
+            >
+              {show.poster_path && (
+                <img
+                  src={IMG_BASE + show.poster_path}
+                  alt={show.name}
+                  className="w-full h-full object-cover"
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-[var(--navy)]/40 text-sm mb-6">{t.profile.favoritesEmpty}</p>
+      )}
 
       <h3 className="text-sm font-semibold text-[var(--navy)]/60 mb-1">{t.people.wallTitle}</h3>
       <p className="text-xs text-[var(--navy)]/40 mb-3">⚠️ {t.people.wallWarning}</p>

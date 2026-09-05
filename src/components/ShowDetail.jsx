@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react'
 import { getShowDetails, getSeasonDetails, IMG_BASE } from '../lib/tmdb'
-import { countWatchedEpisodes } from '../lib/storage'
+import { countWatchedEpisodes, allEpisodesWatchedMap } from '../lib/storage'
 import { useLanguage } from '../lib/i18n'
 
-export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, onRemove, onClose }) {
+export default function ShowDetail({
+  show,
+  onToggleEpisode,
+  onSetSeasonWatched,
+  onMarkAllWatched,
+  onToggleFavorite,
+  onRemove,
+  onClose,
+}) {
   const { lang, t } = useLanguage()
   const [details, setDetails] = useState(null)
   const [seasonNumber, setSeasonNumber] = useState(1)
@@ -40,6 +48,15 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
   const watchedSet = new Set(show.watched[String(seasonNumber)] ?? [])
   const allWatched = seasonData?.episodes?.length > 0 && seasonData.episodes.every((ep) => watchedSet.has(ep.episode_number))
 
+  const realSeasons = details?.seasons?.filter(
+    (s) => s.season_number > 0 || details.seasons.length === 1,
+  )
+
+  function handleMarkAllWatched(rewatchCount) {
+    if (!realSeasons) return
+    onMarkAllWatched(show.id, allEpisodesWatchedMap(realSeasons), rewatchCount)
+  }
+
   return (
     <div className="fixed inset-0 bg-[var(--navy)]/60 flex items-start justify-center overflow-y-auto z-50 p-4">
       <div className="bg-white rounded-xl max-w-2xl w-full my-8 border border-[var(--pink-soft)]/75">
@@ -48,9 +65,21 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
             <h2 className="text-lg font-semibold text-[var(--navy)]">{show.name}</h2>
             <p className="text-xs text-[var(--navy)]/50">
               {countWatchedEpisodes(show)} {t.detail.watched}
+              {show.rewatchCount > 1 && ` · ${show.rewatchCount}x`}
             </p>
           </div>
           <div className="flex gap-2">
+            <button
+              onClick={() => onToggleFavorite(show.id, !show.isFavorite)}
+              title={show.isFavorite ? t.detail.favoriteRemove : t.detail.favoriteAdd}
+              className={`text-lg px-2 rounded-md border ${
+                show.isFavorite
+                  ? 'text-[var(--pink)] border-[var(--pink)]'
+                  : 'text-[var(--navy)]/40 border-[var(--pink-soft)]/75'
+              }`}
+            >
+              {show.isFavorite ? '★' : '☆'}
+            </button>
             <button
               onClick={() => onRemove(show.id)}
               className="text-xs text-rose-500 hover:text-rose-600 px-3 py-1.5 rounded-md border border-rose-200"
@@ -67,6 +96,23 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
         </div>
 
         <div className="p-4">
+          {realSeasons && (
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() => handleMarkAllWatched(1)}
+                className="flex-1 rounded-md bg-[var(--navy)] hover:bg-[var(--navy-soft)] text-white text-sm py-2 transition-colors"
+              >
+                {t.detail.markAllWatched}
+              </button>
+              <button
+                onClick={() => handleMarkAllWatched(2)}
+                className="flex-1 rounded-md bg-[var(--pink)] hover:bg-[var(--pink)]/85 text-white text-sm py-2 transition-colors"
+              >
+                {t.detail.markWatchedTwice}
+              </button>
+            </div>
+          )}
+
           {details?.seasons && (
             <div className="flex gap-2 flex-wrap mb-4">
               {details.seasons

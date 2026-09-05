@@ -55,8 +55,12 @@ const translations = {
       close: 'Kapat',
       markSeason: 'Tüm sezonu izledim işaretle',
       unmarkSeason: 'Sezonun işaretini kaldır',
+      markAllWatched: 'Hepsini izledim',
+      markWatchedTwice: '2 kere izledim',
       loading: 'Yükleniyor...',
       watched: 'bölüm izlendi',
+      favoriteAdd: 'Favorilere ekle',
+      favoriteRemove: 'Favorilerden çıkar',
     },
     profile: {
       title: 'Profilim',
@@ -68,6 +72,8 @@ const translations = {
       language: 'Dil',
       signOut: 'Çıkış yap',
       tmdbAttribution: 'Bu ürün TMDB API’sini kullanır ancak TMDB tarafından onaylanmamış veya sertifikalandırılmamıştır.',
+      favoritesTitle: 'Favori Dizilerim',
+      favoritesEmpty: 'Henüz favori dizin yok.',
     },
     people: {
       empty: 'Henüz kimse yok.',
@@ -130,8 +136,12 @@ const translations = {
       close: 'Close',
       markSeason: 'Mark whole season watched',
       unmarkSeason: 'Unmark season',
+      markAllWatched: 'Watched it all',
+      markWatchedTwice: 'Watched it twice',
       loading: 'Loading...',
       watched: 'episodes watched',
+      favoriteAdd: 'Add to favorites',
+      favoriteRemove: 'Remove from favorites',
     },
     profile: {
       title: 'Profile',
@@ -143,6 +153,8 @@ const translations = {
       language: 'Language',
       signOut: 'Sign out',
       tmdbAttribution: 'This product uses the TMDB API but is not endorsed or certified by TMDB.',
+      favoritesTitle: 'My Favorite Shows',
+      favoritesEmpty: "You don't have any favorites yet.",
     },
     people: {
       empty: 'No one here yet.',

@@ -8,7 +8,14 @@ import ResetPassword from './components/ResetPassword'
 import ProfileTab from './components/ProfileTab'
 import PeopleTab from './components/PeopleTab'
 import { supabase } from './lib/supabaseClient'
-import { fetchShowsForUser, insertShow, deleteShow, updateWatched } from './lib/showsApi'
+import {
+  fetchShowsForUser,
+  insertShow,
+  deleteShow,
+  updateWatched,
+  updateWatchedAndRewatch,
+  updateFavorite,
+} from './lib/showsApi'
 import { toggleEpisode, setSeasonWatched } from './lib/storage'
 import { useLanguage } from './lib/i18n'
 
@@ -84,6 +91,22 @@ function App() {
     await updateWatched(showId, next[showId].watched)
   }
 
+  async function handleMarkAllWatched(showId, watchedMap, rewatchCount) {
+    setShows((prev) => ({
+      ...prev,
+      [showId]: { ...prev[showId], watched: watchedMap, rewatchCount },
+    }))
+    await updateWatchedAndRewatch(showId, watchedMap, rewatchCount)
+  }
+
+  async function handleToggleFavorite(showId, isFavorite) {
+    setShows((prev) => ({
+      ...prev,
+      [showId]: { ...prev[showId], isFavorite },
+    }))
+    await updateFavorite(showId, isFavorite)
+  }
+
   const selectedShow = selectedId ? shows[selectedId] : null
 
   const TABS = [
@@ -134,6 +157,8 @@ function App() {
           onRemove={handleRemove}
           onToggleEpisode={handleToggleEpisode}
           onSetSeasonWatched={handleSetSeasonWatched}
+          onMarkAllWatched={handleMarkAllWatched}
+          onToggleFavorite={handleToggleFavorite}
         />
       )}
     </div>

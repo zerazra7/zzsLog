@@ -7,7 +7,10 @@ export function rowToShow(row) {
     poster_path: row.poster_path,
     episode_run_time: row.episode_run_time,
     watched: row.watched || {},
+    rewatchCount: row.rewatch_count ?? 1,
+    isFavorite: row.is_favorite ?? false,
     addedAt: new Date(row.added_at).getTime(),
+    updatedAt: row.updated_at ? new Date(row.updated_at).getTime() : null,
   }
 }
 
@@ -51,6 +54,28 @@ export async function updateWatched(tmdbId, watched) {
   const { data, error } = await supabase
     .from('shows')
     .update({ watched })
+    .eq('tmdb_id', tmdbId)
+    .select()
+    .single()
+  if (error) throw error
+  return rowToShow(data)
+}
+
+export async function updateWatchedAndRewatch(tmdbId, watched, rewatchCount) {
+  const { data, error } = await supabase
+    .from('shows')
+    .update({ watched, rewatch_count: rewatchCount })
+    .eq('tmdb_id', tmdbId)
+    .select()
+    .single()
+  if (error) throw error
+  return rowToShow(data)
+}
+
+export async function updateFavorite(tmdbId, isFavorite) {
+  const { data, error } = await supabase
+    .from('shows')
+    .update({ is_favorite: isFavorite })
     .eq('tmdb_id', tmdbId)
     .select()
     .single()
