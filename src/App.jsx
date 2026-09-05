@@ -54,6 +54,12 @@ function App() {
   async function handleAdd(show) {
     const saved = await insertShow(session.user.id, show)
     setShows((prev) => ({ ...prev, [saved.id]: saved }))
+    return saved
+  }
+
+  async function handleAddFromSearch(show) {
+    const saved = await handleAdd(show)
+    setSelectedId(saved.id)
   }
 
   async function handleRemove(showId) {
@@ -96,7 +102,7 @@ function App() {
       </header>
 
       <main className="flex-1 pb-20">
-        {tab === 'search' && <SearchTab shows={shows} onAdd={handleAdd} />}
+        {tab === 'search' && <SearchTab shows={shows} onAdd={handleAddFromSearch} />}
         {tab === 'shows' && (
           <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
         )}
