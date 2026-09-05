@@ -27,9 +27,9 @@ function App() {
   const selectedShow = selectedId ? shows[selectedId] : null
 
   return (
-    <div className="min-h-svh flex flex-col">
-      <header className="border-b border-zinc-800 px-4 py-4 sticky top-0 bg-zinc-900/95 backdrop-blur z-10">
-        <h1 className="text-xl font-semibold text-center">📺 TV Log</h1>
+    <div className="min-h-svh flex flex-col bg-pink-50">
+      <header className="px-4 py-4 sticky top-0 bg-blue-950 z-10">
+        <h1 className="text-xl font-semibold text-center text-white">📺 TV Log</h1>
       </header>
 
       <main className="flex-1 pb-20">
@@ -42,13 +42,13 @@ function App() {
         {tab === 'stats' && <StatsTab shows={shows} />}
       </main>
 
-      <nav className="fixed bottom-0 inset-x-0 border-t border-zinc-800 bg-zinc-900/95 backdrop-blur flex">
+      <nav className="fixed bottom-0 inset-x-0 bg-blue-950 flex">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`flex-1 py-3.5 text-sm font-medium transition-colors ${
-              tab === t.id ? 'text-violet-400' : 'text-zinc-500'
+              tab === t.id ? 'text-pink-300' : 'text-blue-300/60'
             }`}
           >
             {t.label}

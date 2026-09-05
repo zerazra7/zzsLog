@@ -39,25 +39,25 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
   const allWatched = seasonData?.episodes?.length > 0 && seasonData.episodes.every((ep) => watchedSet.has(ep.episode_number))
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-start justify-center overflow-y-auto z-50 p-4">
-      <div className="bg-zinc-900 rounded-xl max-w-2xl w-full my-8 border border-zinc-700">
-        <div className="flex items-center justify-between p-4 border-b border-zinc-700">
+    <div className="fixed inset-0 bg-blue-950/60 flex items-start justify-center overflow-y-auto z-50 p-4">
+      <div className="bg-white rounded-xl max-w-2xl w-full my-8 border border-pink-200">
+        <div className="flex items-center justify-between p-4 border-b border-pink-100">
           <div>
-            <h2 className="text-lg font-semibold">{show.name}</h2>
-            <p className="text-xs text-zinc-400">
+            <h2 className="text-lg font-semibold text-blue-950">{show.name}</h2>
+            <p className="text-xs text-blue-950/50">
               {countWatchedEpisodes(show)} bölüm izlendi
             </p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => onRemove(show.id)}
-              className="text-xs text-red-400 hover:text-red-300 px-3 py-1.5 rounded-md border border-red-900/60"
+              className="text-xs text-rose-500 hover:text-rose-600 px-3 py-1.5 rounded-md border border-rose-200"
             >
               Listeden çıkar
             </button>
             <button
               onClick={onClose}
-              className="text-zinc-400 hover:text-zinc-200 px-3 py-1.5 rounded-md border border-zinc-700"
+              className="text-blue-950/60 hover:text-blue-950 px-3 py-1.5 rounded-md border border-pink-200"
             >
               Kapat
             </button>
@@ -75,8 +75,8 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
                     onClick={() => setSeasonNumber(s.season_number)}
                     className={`px-3 py-1.5 rounded-md text-sm border transition-colors ${
                       seasonNumber === s.season_number
-                        ? 'bg-violet-600 border-violet-600'
-                        : 'border-zinc-700 hover:border-zinc-500'
+                        ? 'bg-blue-950 border-blue-950 text-white'
+                        : 'border-pink-200 text-blue-950 hover:border-pink-400'
                     }`}
                   >
                     {s.name}
@@ -95,13 +95,13 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
                   !allWatched,
                 )
               }
-              className="mb-3 text-sm text-violet-400 hover:text-violet-300"
+              className="mb-3 text-sm text-pink-500 hover:text-pink-600"
             >
               {allWatched ? 'Sezonun işaretini kaldır' : 'Tüm sezonu izledim işaretle'}
             </button>
           )}
 
-          {loading && <p className="text-zinc-400 text-sm">Yükleniyor...</p>}
+          {loading && <p className="text-blue-950/50 text-sm">Yükleniyor...</p>}
 
           <div className="flex flex-col gap-2">
             {seasonData?.episodes?.map((ep) => {
@@ -110,20 +110,20 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
                 <label
                   key={ep.id}
                   className={`flex gap-3 items-start p-2.5 rounded-lg border cursor-pointer transition-colors ${
-                    watched ? 'border-violet-600 bg-violet-600/10' : 'border-zinc-800 hover:border-zinc-700'
+                    watched ? 'border-pink-400 bg-pink-50' : 'border-pink-100 hover:border-pink-300'
                   }`}
                 >
                   <input
                     type="checkbox"
                     checked={watched}
                     onChange={() => onToggleEpisode(show.id, seasonNumber, ep.episode_number)}
-                    className="mt-1 accent-violet-600"
+                    className="mt-1 accent-pink-500"
                   />
                   <div className="flex-1">
-                    <p className="text-sm font-medium">
+                    <p className="text-sm font-medium text-blue-950">
                       {ep.episode_number}. {ep.name}
                     </p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{ep.air_date}</p>
+                    <p className="text-xs text-blue-950/50 mt-0.5">{ep.air_date}</p>
                   </div>
                 </label>
               )

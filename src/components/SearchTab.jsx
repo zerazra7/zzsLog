@@ -29,18 +29,18 @@ export default function SearchTab({ shows, onAdd }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Dizi ara... (ör. Breaking Bad)"
-          className="flex-1 rounded-lg bg-zinc-800 border border-zinc-700 px-4 py-2.5 text-zinc-100 placeholder-zinc-500 focus:outline-none focus:border-violet-500"
+          className="flex-1 rounded-lg bg-white border border-pink-200 px-4 py-2.5 text-blue-950 placeholder-pink-300 focus:outline-none focus:border-pink-400"
         />
         <button
           type="submit"
-          className="rounded-lg bg-violet-600 hover:bg-violet-500 px-5 py-2.5 font-medium transition-colors"
+          className="rounded-lg bg-blue-950 hover:bg-blue-900 text-white px-5 py-2.5 font-medium transition-colors"
         >
           Ara
         </button>
       </form>
 
-      {loading && <p className="text-zinc-400 text-center">Aranıyor...</p>}
-      {error && <p className="text-red-400 text-center">{error}</p>}
+      {loading && <p className="text-blue-950/60 text-center">Aranıyor...</p>}
+      {error && <p className="text-rose-500 text-center">{error}</p>}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         {results.map((show) => {
@@ -48,9 +48,9 @@ export default function SearchTab({ shows, onAdd }) {
           return (
             <div
               key={show.id}
-              className="bg-zinc-800/60 rounded-lg overflow-hidden flex flex-col"
+              className="bg-white rounded-lg overflow-hidden flex flex-col border border-pink-100"
             >
-              <div className="aspect-[2/3] bg-zinc-700">
+              <div className="aspect-[2/3] bg-pink-100">
                 {show.poster_path && (
                   <img
                     src={IMG_BASE + show.poster_path}
@@ -60,14 +60,14 @@ export default function SearchTab({ shows, onAdd }) {
                 )}
               </div>
               <div className="p-3 flex flex-col gap-2 flex-1">
-                <p className="font-medium text-sm leading-tight">{show.name}</p>
-                <p className="text-xs text-zinc-400">
+                <p className="font-medium text-sm leading-tight text-blue-950">{show.name}</p>
+                <p className="text-xs text-blue-950/50">
                   {show.first_air_date?.slice(0, 4) || '—'}
                 </p>
                 <button
                   onClick={() => onAdd(show)}
                   disabled={alreadyAdded}
-                  className="mt-auto rounded-md bg-violet-600 hover:bg-violet-500 disabled:bg-zinc-700 disabled:text-zinc-400 text-sm py-1.5 transition-colors"
+                  className="mt-auto rounded-md bg-pink-400 hover:bg-pink-500 disabled:bg-pink-100 disabled:text-pink-400 text-white text-sm py-1.5 transition-colors"
                 >
                   {alreadyAdded ? 'Listede ✓' : 'Listeye ekle'}
                 </button>

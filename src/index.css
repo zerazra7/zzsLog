@@ -11,8 +11,8 @@
 body {
   margin: 0;
   font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-  background: #0f1115;
-  color: #e5e7eb;
+  background: #fdf2f8;
+  color: #1e2a52;
 }
 
 #root {
@@ -24,6 +24,6 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: #fbcfe8;
   border-radius: 4px;
 }

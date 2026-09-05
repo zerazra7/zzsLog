@@ -6,7 +6,7 @@ export default function MyShowsTab({ shows, onSelect }) {
 
   if (list.length === 0) {
     return (
-      <div className="max-w-3xl mx-auto px-4 py-16 text-center text-zinc-400">
+      <div className="max-w-3xl mx-auto px-4 py-16 text-center text-blue-950/50">
         <p>Henüz listende dizi yok.</p>
         <p className="text-sm mt-1">"Ara" sekmesinden dizi ekleyebilirsin.</p>
       </div>
@@ -19,9 +19,9 @@ export default function MyShowsTab({ shows, onSelect }) {
         <button
           key={show.id}
           onClick={() => onSelect(show)}
-          className="bg-zinc-800/60 rounded-lg overflow-hidden text-left hover:ring-2 hover:ring-violet-600 transition-all"
+          className="bg-white rounded-lg overflow-hidden text-left border border-pink-100 hover:ring-2 hover:ring-pink-400 transition-all"
         >
-          <div className="aspect-[2/3] bg-zinc-700">
+          <div className="aspect-[2/3] bg-pink-100">
             {show.poster_path && (
               <img
                 src={IMG_BASE + show.poster_path}
@@ -31,8 +31,8 @@ export default function MyShowsTab({ shows, onSelect }) {
             )}
           </div>
           <div className="p-3">
-            <p className="font-medium text-sm leading-tight">{show.name}</p>
-            <p className="text-xs text-zinc-400 mt-1">
+            <p className="font-medium text-sm leading-tight text-blue-950">{show.name}</p>
+            <p className="text-xs text-blue-950/50 mt-1">
               {countWatchedEpisodes(show)} bölüm izlendi
             </p>
           </div>

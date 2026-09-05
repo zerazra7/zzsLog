@@ -23,18 +23,18 @@ export default function StatsTab({ shows }) {
         <StatCard label="Saat" value={formatHours(totalMinutes)} />
       </div>
 
-      <h3 className="text-sm font-semibold text-zinc-400 mb-3">En çok izlenenler</h3>
+      <h3 className="text-sm font-semibold text-blue-950/60 mb-3">En çok izlenenler</h3>
       <div className="flex flex-col gap-2">
         {topShows.length === 0 && (
-          <p className="text-zinc-500 text-sm">Henüz veri yok.</p>
+          <p className="text-blue-950/40 text-sm">Henüz veri yok.</p>
         )}
         {topShows.map((show) => (
           <div
             key={show.id}
-            className="flex items-center justify-between bg-zinc-800/60 rounded-lg px-4 py-3"
+            className="flex items-center justify-between bg-white border border-pink-100 rounded-lg px-4 py-3"
           >
-            <span className="text-sm font-medium">{show.name}</span>
-            <span className="text-xs text-zinc-400">
+            <span className="text-sm font-medium text-blue-950">{show.name}</span>
+            <span className="text-xs text-blue-950/50">
               {countWatchedEpisodes(show)} bölüm
             </span>
           </div>
@@ -46,9 +46,9 @@ export default function StatsTab({ shows }) {
 
 function StatCard({ label, value }) {
   return (
-    <div className="bg-zinc-800/60 rounded-lg p-4 text-center">
-      <p className="text-2xl font-semibold">{value}</p>
-      <p className="text-xs text-zinc-400 mt-1">{label}</p>
+    <div className="bg-white border border-pink-100 rounded-lg p-4 text-center">
+      <p className="text-2xl font-semibold text-blue-950">{value}</p>
+      <p className="text-xs text-blue-950/50 mt-1">{label}</p>
     </div>
   )
 }
