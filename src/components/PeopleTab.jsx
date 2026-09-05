@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { listProfiles } from '../lib/socialApi'
+import { listProfiles, displayName } from '../lib/socialApi'
 import { useLanguage } from '../lib/i18n'
 import UserProfileModal from './UserProfileModal'
 
@@ -23,7 +23,7 @@ export default function PeopleTab({ myId }) {
             onClick={() => setSelected(p)}
             className="text-left bg-white border border-[var(--pink-soft)]/55 rounded-lg px-4 py-3 hover:ring-2 hover:ring-[var(--pink)] transition-all"
           >
-            <p className="text-sm font-medium text-[var(--navy)]">{p.email}</p>
+            <p className="text-sm font-medium text-[var(--navy)]">{displayName(p)}</p>
           </button>
         ))}
         {others.length === 0 && (

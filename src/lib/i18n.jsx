@@ -61,6 +61,10 @@ const translations = {
     profile: {
       title: 'Profilim',
       emailLabel: 'Email',
+      nicknameLabel: 'Rumuz',
+      nicknamePlaceholder: 'Bir rumuz belirle (opsiyonel)',
+      nicknameSave: 'Kaydet',
+      nicknameSaved: 'Kaydedildi!',
       language: 'Dil',
       signOut: 'Çıkış yap',
     },
@@ -131,6 +135,10 @@ const translations = {
     profile: {
       title: 'Profile',
       emailLabel: 'Email',
+      nicknameLabel: 'Nickname',
+      nicknamePlaceholder: 'Set a nickname (optional)',
+      nicknameSave: 'Save',
+      nicknameSaved: 'Saved!',
       language: 'Language',
       signOut: 'Sign out',
     },

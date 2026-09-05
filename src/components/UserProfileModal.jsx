@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchShowsForUser } from '../lib/showsApi'
-import { fetchWallMessages, postWallMessage } from '../lib/socialApi'
+import { fetchWallMessages, postWallMessage, displayName } from '../lib/socialApi'
 import { countWatchedEpisodes, totalMinutesWatched } from '../lib/storage'
 import { IMG_BASE } from '../lib/tmdb'
 import { useLanguage } from '../lib/i18n'
@@ -39,15 +39,15 @@ export default function UserProfileModal({ profile, myId, profiles, onClose }) {
     setText('')
   }
 
-  function authorEmail(authorId) {
-    return profiles.find((p) => p.id === authorId)?.email ?? '???'
+  function authorLabel(authorId) {
+    return displayName(profiles.find((p) => p.id === authorId))
   }
 
   return (
     <div className="fixed inset-0 bg-[var(--navy)]/60 flex items-start justify-center overflow-y-auto z-50 p-4">
       <div className="bg-white rounded-xl max-w-2xl w-full my-8 border border-[var(--pink-soft)]/75">
         <div className="flex items-center justify-between p-4 border-b border-[var(--pink-soft)]/55">
-          <h2 className="text-lg font-semibold text-[var(--navy)]">{profile.email}</h2>
+          <h2 className="text-lg font-semibold text-[var(--navy)]">{displayName(profile)}</h2>
           <button
             onClick={onClose}
             className="text-[var(--navy)]/60 hover:text-[var(--navy)] px-3 py-1.5 rounded-md border border-[var(--pink-soft)]/75"
@@ -109,7 +109,7 @@ export default function UserProfileModal({ profile, myId, profiles, onClose }) {
                 key={m.id}
                 className="bg-[var(--pink-soft)]/10 border border-[var(--pink-soft)]/40 rounded-lg px-3 py-2"
               >
-                <p className="text-xs text-[var(--navy)]/50 mb-0.5">{authorEmail(m.author_id)}</p>
+                <p className="text-[10px] text-[var(--navy)]/40 mb-0.5">{authorLabel(m.author_id)}</p>
                 <p className="text-sm text-[var(--navy)]">{m.text}</p>
               </div>
             ))}

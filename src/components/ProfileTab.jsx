@@ -1,22 +1,33 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useLanguage } from '../lib/i18n'
-import { listProfiles, fetchWallMessages } from '../lib/socialApi'
+import { listProfiles, fetchWallMessages, updateNickname, displayName } from '../lib/socialApi'
 
 export default function ProfileTab({ email, myId }) {
   const { lang, setLang, t } = useLanguage()
   const [messages, setMessages] = useState([])
   const [profiles, setProfiles] = useState([])
+  const [nickname, setNickname] = useState('')
+  const [savedFlash, setSavedFlash] = useState(false)
 
   useEffect(() => {
     Promise.all([fetchWallMessages(myId), listProfiles()]).then(([msgs, profs]) => {
       setMessages(msgs)
       setProfiles(profs)
+      setNickname(profs.find((p) => p.id === myId)?.nickname ?? '')
     })
   }, [myId])
 
-  function authorEmail(authorId) {
-    return profiles.find((p) => p.id === authorId)?.email ?? '???'
+  function authorLabel(authorId) {
+    return displayName(profiles.find((p) => p.id === authorId))
+  }
+
+  async function handleSaveNickname(e) {
+    e.preventDefault()
+    const updated = await updateNickname(myId, nickname)
+    setProfiles((prev) => prev.map((p) => (p.id === myId ? updated : p)))
+    setSavedFlash(true)
+    setTimeout(() => setSavedFlash(false), 1500)
   }
 
   return (
@@ -25,6 +36,27 @@ export default function ProfileTab({ email, myId }) {
         <p className="text-xs text-[var(--navy)]/50 mb-1">{t.profile.emailLabel}</p>
         <p className="text-sm font-medium text-[var(--navy)]">{email}</p>
       </div>
+
+      <form
+        onSubmit={handleSaveNickname}
+        className="bg-white border border-[var(--pink-soft)]/55 rounded-lg p-4 mb-4"
+      >
+        <p className="text-xs text-[var(--navy)]/50 mb-2">{t.profile.nicknameLabel}</p>
+        <div className="flex gap-2">
+          <input
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+            placeholder={t.profile.nicknamePlaceholder}
+            className="flex-1 rounded-lg bg-white border border-[var(--pink-soft)]/75 px-3 py-2 text-sm text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
+          />
+          <button
+            type="submit"
+            className="rounded-lg bg-[var(--pink)] hover:bg-[var(--pink)]/85 text-white px-4 py-2 text-sm font-medium transition-colors"
+          >
+            {savedFlash ? t.profile.nicknameSaved : t.profile.nicknameSave}
+          </button>
+        </div>
+      </form>
 
       <div className="bg-white border border-[var(--pink-soft)]/55 rounded-lg p-4 mb-4">
         <p className="text-xs text-[var(--navy)]/50 mb-2">{t.profile.language}</p>
@@ -67,7 +99,7 @@ export default function ProfileTab({ email, myId }) {
             key={m.id}
             className="bg-[var(--pink-soft)]/10 border border-[var(--pink-soft)]/40 rounded-lg px-3 py-2"
           >
-            <p className="text-xs text-[var(--navy)]/50 mb-0.5">{authorEmail(m.author_id)}</p>
+            <p className="text-[10px] text-[var(--navy)]/40 mb-0.5">{authorLabel(m.author_id)}</p>
             <p className="text-sm text-[var(--navy)]">{m.text}</p>
           </div>
         ))}
