@@ -4,6 +4,7 @@ import MyShowsTab from './components/MyShowsTab'
 import StatsTab from './components/StatsTab'
 import ShowDetail from './components/ShowDetail'
 import Auth from './components/Auth'
+import ResetPassword from './components/ResetPassword'
 import { supabase } from './lib/supabaseClient'
 import { fetchShows, insertShow, deleteShow, updateWatched } from './lib/showsApi'
 import { toggleEpisode, setSeasonWatched } from './lib/storage'
@@ -19,11 +20,15 @@ function App() {
   const [shows, setShows] = useState({})
   const [tab, setTab] = useState('shows')
   const [selectedId, setSelectedId] = useState(null)
+  const [passwordRecovery, setPasswordRecovery] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, newSession) => {
       setSession(newSession)
+      if (event === 'PASSWORD_RECOVERY') {
+        setPasswordRecovery(true)
+      }
     })
     return () => listener.subscription.unsubscribe()
   }, [])
@@ -38,6 +43,10 @@ function App() {
 
   if (session === undefined) {
     return <div className="min-h-svh bg-[var(--cream)]" />
+  }
+
+  if (passwordRecovery) {
+    return <ResetPassword onDone={() => setPasswordRecovery(false)} />
   }
 
   if (!session) {
