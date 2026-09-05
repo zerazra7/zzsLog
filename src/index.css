@@ -2,6 +2,12 @@
 
 :root {
   color-scheme: light dark;
+  --navy: #203f9a;
+  --navy-soft: #4e7cb2;
+  --blue-pastel: #94c2da;
+  --pink: #e84797;
+  --pink-soft: #e7a0cc;
+  --cream: #efe8e0;
 }
 
 * {
@@ -11,8 +17,8 @@
 body {
   margin: 0;
   font-family: system-ui, "Segoe UI", Roboto, sans-serif;
-  background: #fdf2f8;
-  color: #1e2a52;
+  background: var(--cream);
+  color: var(--navy);
 }
 
 #root {
@@ -24,6 +30,6 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #fbcfe8;
+  background: var(--pink-soft);
   border-radius: 4px;
 }

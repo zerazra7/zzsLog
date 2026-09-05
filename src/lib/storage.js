@@ -1,39 +1,3 @@
-const STORAGE_KEY = 'tvtime-clone:shows'
-
-export function loadShows() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : {}
-  } catch {
-    return {}
-  }
-}
-
-export function saveShows(shows) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(shows))
-}
-
-export function addShow(shows, show) {
-  if (shows[show.id]) return shows
-  return {
-    ...shows,
-    [show.id]: {
-      id: show.id,
-      name: show.name,
-      poster_path: show.poster_path,
-      episode_run_time: show.episode_run_time?.[0] ?? 30,
-      addedAt: Date.now(),
-      watched: {},
-    },
-  }
-}
-
-export function removeShow(shows, showId) {
-  const next = { ...shows }
-  delete next[showId]
-  return next
-}
-
 export function toggleEpisode(shows, showId, seasonNumber, episodeNumber) {
   const show = shows[showId]
   if (!show) return shows

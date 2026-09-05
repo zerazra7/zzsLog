@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import SearchTab from './components/SearchTab'
 import MyShowsTab from './components/MyShowsTab'
 import StatsTab from './components/StatsTab'
 import ShowDetail from './components/ShowDetail'
-import { loadShows, saveShows, addShow, removeShow, toggleEpisode, setSeasonWatched } from './lib/storage'
+import Auth from './components/Auth'
+import { supabase } from './lib/supabaseClient'
+import { fetchShows, insertShow, deleteShow, updateWatched } from './lib/showsApi'
+import { toggleEpisode, setSeasonWatched } from './lib/storage'
 
 const TABS = [
   { id: 'shows', label: 'Dizilerim' },
@@ -12,43 +15,92 @@ const TABS = [
 ]
 
 function App() {
-  const [shows, setShows] = useState(loadShows)
+  const [session, setSession] = useState(undefined)
+  const [shows, setShows] = useState({})
   const [tab, setTab] = useState('shows')
   const [selectedId, setSelectedId] = useState(null)
 
-  function update(updater) {
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session))
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      setSession(newSession)
+    })
+    return () => listener.subscription.unsubscribe()
+  }, [])
+
+  useEffect(() => {
+    if (session) {
+      fetchShows().then(setShows).catch(console.error)
+    } else {
+      setShows({})
+    }
+  }, [session])
+
+  if (session === undefined) {
+    return <div className="min-h-svh bg-[var(--cream)]" />
+  }
+
+  if (!session) {
+    return <Auth />
+  }
+
+  async function handleAdd(show) {
+    const saved = await insertShow(session.user.id, show)
+    setShows((prev) => ({ ...prev, [saved.id]: saved }))
+  }
+
+  async function handleRemove(showId) {
+    await deleteShow(showId)
     setShows((prev) => {
-      const next = updater(prev)
-      saveShows(next)
+      const next = { ...prev }
+      delete next[showId]
       return next
     })
+    setSelectedId(null)
+  }
+
+  async function handleToggleEpisode(showId, seasonNumber, episodeNumber) {
+    const next = toggleEpisode(shows, showId, seasonNumber, episodeNumber)
+    setShows(next)
+    await updateWatched(showId, next[showId].watched)
+  }
+
+  async function handleSetSeasonWatched(showId, seasonNumber, episodeNumbers, watched) {
+    const next = setSeasonWatched(shows, showId, seasonNumber, episodeNumbers, watched)
+    setShows(next)
+    await updateWatched(showId, next[showId].watched)
   }
 
   const selectedShow = selectedId ? shows[selectedId] : null
 
   return (
-    <div className="min-h-svh flex flex-col bg-pink-50">
-      <header className="px-4 py-4 sticky top-0 bg-blue-950 z-10">
+    <div className="min-h-svh flex flex-col bg-[var(--cream)]">
+      <header className="px-4 py-4 sticky top-0 bg-[var(--navy)] z-10 flex items-center justify-between">
+        <span className="w-14" />
         <h1 className="text-xl font-semibold text-center text-white">📺 TV Log</h1>
+        <button
+          onClick={() => supabase.auth.signOut()}
+          className="w-14 text-xs text-[var(--blue-pastel)] hover:text-white text-right"
+        >
+          Çıkış
+        </button>
       </header>
 
       <main className="flex-1 pb-20">
-        {tab === 'search' && (
-          <SearchTab shows={shows} onAdd={(show) => update((prev) => addShow(prev, show))} />
-        )}
+        {tab === 'search' && <SearchTab shows={shows} onAdd={handleAdd} />}
         {tab === 'shows' && (
           <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
         )}
         {tab === 'stats' && <StatsTab shows={shows} />}
       </main>
 
-      <nav className="fixed bottom-0 inset-x-0 bg-blue-950 flex">
+      <nav className="fixed bottom-0 inset-x-0 bg-[var(--navy)] flex">
         {TABS.map((t) => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`flex-1 py-3.5 text-sm font-medium transition-colors ${
-              tab === t.id ? 'text-pink-300' : 'text-blue-300/60'
+              tab === t.id ? 'text-[var(--pink-soft)]' : 'text-[var(--blue-pastel)]/60'
             }`}
           >
             {t.label}
@@ -60,16 +112,9 @@ function App() {
         <ShowDetail
           show={selectedShow}
           onClose={() => setSelectedId(null)}
-          onRemove={(id) => {
-            update((prev) => removeShow(prev, id))
-            setSelectedId(null)
-          }}
-          onToggleEpisode={(showId, seasonNumber, episodeNumber) =>
-            update((prev) => toggleEpisode(prev, showId, seasonNumber, episodeNumber))
-          }
-          onSetSeasonWatched={(showId, seasonNumber, episodeNumbers, watched) =>
-            update((prev) => setSeasonWatched(prev, showId, seasonNumber, episodeNumbers, watched))
-          }
+          onRemove={handleRemove}
+          onToggleEpisode={handleToggleEpisode}
+          onSetSeasonWatched={handleSetSeasonWatched}
         />
       )}
     </div>
