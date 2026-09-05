@@ -67,6 +67,7 @@ const translations = {
       nicknameSaved: 'Kaydedildi!',
       language: 'Dil',
       signOut: 'Çıkış yap',
+      tmdbAttribution: 'Bu ürün TMDB API’sini kullanır ancak TMDB tarafından onaylanmamış veya sertifikalandırılmamıştır.',
     },
     people: {
       empty: 'Henüz kimse yok.',
@@ -141,6 +142,7 @@ const translations = {
       nicknameSaved: 'Saved!',
       language: 'Language',
       signOut: 'Sign out',
+      tmdbAttribution: 'This product uses the TMDB API but is not endorsed or certified by TMDB.',
     },
     people: {
       empty: 'No one here yet.',

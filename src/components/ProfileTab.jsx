@@ -107,6 +107,10 @@ export default function ProfileTab({ email, myId }) {
           <p className="text-[var(--navy)]/40 text-sm">{t.people.noMessages}</p>
         )}
       </div>
+
+      <p className="text-[10px] text-[var(--navy)]/35 text-center mt-8">
+        {t.profile.tmdbAttribution}
+      </p>
     </div>
   )
 }
