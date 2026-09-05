@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useLanguage } from '../lib/i18n'
+import PasswordInput from './PasswordInput'
 
 export default function ResetPassword({ onDone }) {
   const { t } = useLanguage()
@@ -42,14 +43,10 @@ export default function ResetPassword({ onDone }) {
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input
-              type="password"
-              required
-              minLength={6}
+            <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t.reset.newPassword}
-              className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
             />
 
             {error && <p className="text-sm text-rose-500">{error}</p>}

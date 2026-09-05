@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import { useLanguage } from '../lib/i18n'
+import PasswordInput from './PasswordInput'
 
 export default function Auth() {
   const { t } = useLanguage()
@@ -62,14 +63,10 @@ export default function Auth() {
             className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
           />
           {mode !== 'forgot' && (
-            <input
-              type="password"
-              required
-              minLength={6}
+            <PasswordInput
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={t.auth.password}
-              className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
             />
           )}
 
