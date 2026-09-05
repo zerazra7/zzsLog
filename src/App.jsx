@@ -5,17 +5,14 @@ import StatsTab from './components/StatsTab'
 import ShowDetail from './components/ShowDetail'
 import Auth from './components/Auth'
 import ResetPassword from './components/ResetPassword'
+import ProfileTab from './components/ProfileTab'
 import { supabase } from './lib/supabaseClient'
 import { fetchShows, insertShow, deleteShow, updateWatched } from './lib/showsApi'
 import { toggleEpisode, setSeasonWatched } from './lib/storage'
-
-const TABS = [
-  { id: 'shows', label: 'Dizilerim' },
-  { id: 'search', label: 'Ara' },
-  { id: 'stats', label: 'İstatistik' },
-]
+import { useLanguage } from './lib/i18n'
 
 function App() {
+  const { t } = useLanguage()
   const [session, setSession] = useState(undefined)
   const [shows, setShows] = useState({})
   const [tab, setTab] = useState('shows')
@@ -82,17 +79,18 @@ function App() {
 
   const selectedShow = selectedId ? shows[selectedId] : null
 
+  const TABS = [
+    { id: 'shows', label: t.tabs.shows },
+    { id: 'search', label: t.tabs.search },
+    { id: 'stats', label: t.tabs.stats },
+    { id: 'profile', label: t.tabs.profile },
+  ]
+
   return (
     <div className="min-h-svh flex flex-col bg-[var(--cream)]">
-      <header className="px-4 py-4 sticky top-0 bg-[var(--navy)] z-10 flex items-center justify-between">
-        <span className="w-14" />
-        <h1 className="text-xl font-semibold text-center text-white">📺 TV Log</h1>
-        <button
-          onClick={() => supabase.auth.signOut()}
-          className="w-14 text-xs text-[var(--blue-pastel)] hover:text-white text-right"
-        >
-          Çıkış
-        </button>
+      <header className="px-4 py-4 sticky top-0 bg-[var(--navy)] z-10 flex items-baseline justify-center gap-2">
+        <h1 className="text-xl font-semibold text-white">{t.appName}</h1>
+        <span className="text-sm text-[var(--blue-pastel)]">{t.greeting}</span>
       </header>
 
       <main className="flex-1 pb-20">
@@ -101,18 +99,19 @@ function App() {
           <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
         )}
         {tab === 'stats' && <StatsTab shows={shows} />}
+        {tab === 'profile' && <ProfileTab email={session.user.email} />}
       </main>
 
       <nav className="fixed bottom-0 inset-x-0 bg-[var(--navy)] flex">
-        {TABS.map((t) => (
+        {TABS.map((tabItem) => (
           <button
-            key={t.id}
-            onClick={() => setTab(t.id)}
+            key={tabItem.id}
+            onClick={() => setTab(tabItem.id)}
             className={`flex-1 py-3.5 text-sm font-medium transition-colors ${
-              tab === t.id ? 'text-[var(--pink-soft)]' : 'text-[var(--blue-pastel)]/60'
+              tab === tabItem.id ? 'text-[var(--pink-soft)]' : 'text-[var(--blue-pastel)]/60'
             }`}
           >
-            {t.label}
+            {tabItem.label}
           </button>
         ))}
       </nav>

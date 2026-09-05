@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { searchShows, IMG_BASE } from '../lib/tmdb'
+import { useLanguage } from '../lib/i18n'
 
 export default function SearchTab({ shows, onAdd }) {
+  const { lang, t } = useLanguage()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
@@ -13,7 +15,7 @@ export default function SearchTab({ shows, onAdd }) {
     setLoading(true)
     setError(null)
     try {
-      const data = await searchShows(query.trim())
+      const data = await searchShows(query.trim(), lang)
       setResults(data)
     } catch (err) {
       setError(err.message)
@@ -28,18 +30,18 @@ export default function SearchTab({ shows, onAdd }) {
         <input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Dizi ara... (ör. Breaking Bad)"
+          placeholder={t.search.placeholder}
           className="flex-1 rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
         />
         <button
           type="submit"
           className="rounded-lg bg-[var(--navy)] hover:bg-[var(--navy-soft)] text-white px-5 py-2.5 font-medium transition-colors"
         >
-          Ara
+          {t.search.button}
         </button>
       </form>
 
-      {loading && <p className="text-[var(--navy)]/60 text-center">Aranıyor...</p>}
+      {loading && <p className="text-[var(--navy)]/60 text-center">{t.search.searching}</p>}
       {error && <p className="text-rose-500 text-center">{error}</p>}
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -69,7 +71,7 @@ export default function SearchTab({ shows, onAdd }) {
                   disabled={alreadyAdded}
                   className="mt-auto rounded-md bg-[var(--pink)] hover:bg-[var(--pink)]/85 disabled:bg-[var(--pink-soft)]/40 disabled:text-[var(--navy)]/50 text-white text-sm py-1.5 transition-colors"
                 >
-                  {alreadyAdded ? 'Listede ✓' : 'Listeye ekle'}
+                  {alreadyAdded ? t.search.inList : t.search.add}
                 </button>
               </div>
             </div>

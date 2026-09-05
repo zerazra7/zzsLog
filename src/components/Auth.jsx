@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import { useLanguage } from '../lib/i18n'
 
 export default function Auth() {
+  const { t } = useLanguage()
   const [mode, setMode] = useState('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -22,14 +24,14 @@ export default function Auth() {
         const { data, error } = await supabase.auth.signUp({ email, password })
         if (error) throw error
         if (!data.session) {
-          setMessage('Kayıt oldun! Şimdi email adresine gelen linke tıklayıp hesabını onayla.')
+          setMessage(t.auth.signupSuccess)
         }
       } else if (mode === 'forgot') {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: window.location.origin,
         })
         if (error) throw error
-        setMessage('Email adresine bir şifre sıfırlama linki gönderdik. Gelen kutunu kontrol et.')
+        setMessage(t.auth.resetSent)
       }
     } catch (err) {
       setError(err.message)
@@ -39,15 +41,15 @@ export default function Auth() {
   }
 
   const titles = {
-    signin: 'Hesabına giriş yap',
-    signup: 'Yeni hesap oluştur',
-    forgot: 'Şifreni sıfırla',
+    signin: t.auth.signInTitle,
+    signup: t.auth.signUpTitle,
+    forgot: t.auth.forgotTitle,
   }
 
   return (
     <div className="min-h-svh flex items-center justify-center bg-[var(--cream)] px-4">
       <div className="w-full max-w-sm bg-white border border-[var(--pink-soft)]/40 rounded-xl p-6">
-        <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">📺 TV Log</h1>
+        <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">{t.appName}</h1>
         <p className="text-sm text-[var(--navy)]/50 text-center mb-6">{titles[mode]}</p>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -56,7 +58,7 @@ export default function Auth() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
+            placeholder={t.auth.email}
             className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
           />
           {mode !== 'forgot' && (
@@ -66,7 +68,7 @@ export default function Auth() {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Şifre"
+              placeholder={t.auth.password}
               className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
             />
           )}
@@ -80,12 +82,12 @@ export default function Auth() {
             className="rounded-lg bg-[var(--navy)] hover:bg-[var(--navy-soft)] disabled:opacity-60 text-white py-2.5 font-medium transition-colors"
           >
             {loading
-              ? 'Bekle...'
+              ? t.auth.wait
               : mode === 'signin'
-                ? 'Giriş yap'
+                ? t.auth.signIn
                 : mode === 'signup'
-                  ? 'Kayıt ol'
-                  : 'Sıfırlama linki gönder'}
+                  ? t.auth.signUp
+                  : t.auth.sendReset}
           </button>
         </form>
 
@@ -98,7 +100,7 @@ export default function Auth() {
             }}
             className="mt-4 text-sm text-[var(--navy)]/60 hover:text-[var(--navy)] w-full text-center"
           >
-            Şifremi unuttum
+            {t.auth.forgotLink}
           </button>
         )}
 
@@ -110,7 +112,7 @@ export default function Auth() {
           }}
           className="mt-2 text-sm text-[var(--pink)] hover:text-[var(--navy)] w-full text-center"
         >
-          {mode === 'signup' ? 'Zaten hesabın var mı? Giriş yap' : 'Hesabın yok mu? Kayıt ol'}
+          {mode === 'signup' ? t.auth.toSignIn : t.auth.toSignUp}
         </button>
       </div>
     </div>

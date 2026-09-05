@@ -1,4 +1,5 @@
 import { countWatchedEpisodes, totalMinutesWatched } from '../lib/storage'
+import { useLanguage } from '../lib/i18n'
 
 function formatHours(minutes) {
   const hours = minutes / 60
@@ -6,6 +7,7 @@ function formatHours(minutes) {
 }
 
 export default function StatsTab({ shows }) {
+  const { t } = useLanguage()
   const list = Object.values(shows)
   const totalShows = list.length
   const totalEpisodes = list.reduce((sum, s) => sum + countWatchedEpisodes(s), 0)
@@ -18,15 +20,15 @@ export default function StatsTab({ shows }) {
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
       <div className="grid grid-cols-3 gap-4 mb-8">
-        <StatCard label="Dizi" value={totalShows} />
-        <StatCard label="Bölüm" value={totalEpisodes} />
-        <StatCard label="Saat" value={formatHours(totalMinutes)} />
+        <StatCard label={t.stats.showsLabel} value={totalShows} />
+        <StatCard label={t.stats.episodesLabel} value={totalEpisodes} />
+        <StatCard label={t.stats.hoursLabel} value={formatHours(totalMinutes)} />
       </div>
 
-      <h3 className="text-sm font-semibold text-[var(--navy)]/60 mb-3">En çok izlenenler</h3>
+      <h3 className="text-sm font-semibold text-[var(--navy)]/60 mb-3">{t.stats.topWatched}</h3>
       <div className="flex flex-col gap-2">
         {topShows.length === 0 && (
-          <p className="text-[var(--navy)]/40 text-sm">Henüz veri yok.</p>
+          <p className="text-[var(--navy)]/40 text-sm">{t.stats.noData}</p>
         )}
         {topShows.map((show) => (
           <div
@@ -35,7 +37,7 @@ export default function StatsTab({ shows }) {
           >
             <span className="text-sm font-medium text-[var(--navy)]">{show.name}</span>
             <span className="text-xs text-[var(--navy)]/50">
-              {countWatchedEpisodes(show)} bölüm
+              {countWatchedEpisodes(show)} {t.stats.episodes}
             </span>
           </div>
         ))}

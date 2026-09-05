@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
+import { useLanguage } from '../lib/i18n'
 
 export default function ResetPassword({ onDone }) {
+  const { t } = useLanguage()
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -25,17 +27,17 @@ export default function ResetPassword({ onDone }) {
   return (
     <div className="min-h-svh flex items-center justify-center bg-[var(--cream)] px-4">
       <div className="w-full max-w-sm bg-white border border-[var(--pink-soft)]/40 rounded-xl p-6">
-        <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">📺 TV Log</h1>
-        <p className="text-sm text-[var(--navy)]/50 text-center mb-6">Yeni şifreni belirle</p>
+        <h1 className="text-xl font-semibold text-[var(--navy)] text-center mb-1">{t.appName}</h1>
+        <p className="text-sm text-[var(--navy)]/50 text-center mb-6">{t.reset.title}</p>
 
         {done ? (
           <div className="flex flex-col gap-4">
-            <p className="text-sm text-[var(--pink)] text-center">Şifren güncellendi!</p>
+            <p className="text-sm text-[var(--pink)] text-center">{t.reset.done}</p>
             <button
               onClick={onDone}
               className="rounded-lg bg-[var(--navy)] hover:bg-[var(--navy-soft)] text-white py-2.5 font-medium transition-colors"
             >
-              Uygulamaya devam et
+              {t.reset.continue}
             </button>
           </div>
         ) : (
@@ -46,7 +48,7 @@ export default function ResetPassword({ onDone }) {
               minLength={6}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Yeni şifre"
+              placeholder={t.reset.newPassword}
               className="rounded-lg bg-white border border-[var(--pink-soft)]/50 px-4 py-2.5 text-[var(--navy)] placeholder-[var(--pink-soft)] focus:outline-none focus:border-[var(--pink)]"
             />
 
@@ -57,7 +59,7 @@ export default function ResetPassword({ onDone }) {
               disabled={loading}
               className="rounded-lg bg-[var(--navy)] hover:bg-[var(--navy-soft)] disabled:opacity-60 text-white py-2.5 font-medium transition-colors"
             >
-              {loading ? 'Bekle...' : 'Şifreyi güncelle'}
+              {loading ? t.auth.wait : t.reset.update}
             </button>
           </form>
         )}

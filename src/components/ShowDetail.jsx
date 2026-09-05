@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getShowDetails, getSeasonDetails, IMG_BASE } from '../lib/tmdb'
 import { countWatchedEpisodes } from '../lib/storage'
+import { useLanguage } from '../lib/i18n'
 
 export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, onRemove, onClose }) {
+  const { lang, t } = useLanguage()
   const [details, setDetails] = useState(null)
   const [seasonNumber, setSeasonNumber] = useState(1)
   const [seasonData, setSeasonData] = useState(null)
@@ -10,7 +12,7 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
 
   useEffect(() => {
     let cancelled = false
-    getShowDetails(show.id).then((d) => {
+    getShowDetails(show.id, lang).then((d) => {
       if (cancelled) return
       setDetails(d)
       const firstReal = d.seasons?.find((s) => s.season_number > 0) ?? d.seasons?.[0]
@@ -19,12 +21,12 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
     return () => {
       cancelled = true
     }
-  }, [show.id])
+  }, [show.id, lang])
 
   useEffect(() => {
     let cancelled = false
     setLoading(true)
-    getSeasonDetails(show.id, seasonNumber).then((d) => {
+    getSeasonDetails(show.id, seasonNumber, lang).then((d) => {
       if (!cancelled) {
         setSeasonData(d)
         setLoading(false)
@@ -33,7 +35,7 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
     return () => {
       cancelled = true
     }
-  }, [show.id, seasonNumber])
+  }, [show.id, seasonNumber, lang])
 
   const watchedSet = new Set(show.watched[String(seasonNumber)] ?? [])
   const allWatched = seasonData?.episodes?.length > 0 && seasonData.episodes.every((ep) => watchedSet.has(ep.episode_number))
@@ -45,7 +47,7 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
           <div>
             <h2 className="text-lg font-semibold text-[var(--navy)]">{show.name}</h2>
             <p className="text-xs text-[var(--navy)]/50">
-              {countWatchedEpisodes(show)} bölüm izlendi
+              {countWatchedEpisodes(show)} {t.detail.watched}
             </p>
           </div>
           <div className="flex gap-2">
@@ -53,13 +55,13 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
               onClick={() => onRemove(show.id)}
               className="text-xs text-rose-500 hover:text-rose-600 px-3 py-1.5 rounded-md border border-rose-200"
             >
-              Listeden çıkar
+              {t.detail.remove}
             </button>
             <button
               onClick={onClose}
               className="text-[var(--navy)]/60 hover:text-[var(--navy)] px-3 py-1.5 rounded-md border border-[var(--pink-soft)]/50"
             >
-              Kapat
+              {t.detail.close}
             </button>
           </div>
         </div>
@@ -97,11 +99,11 @@ export default function ShowDetail({ show, onToggleEpisode, onSetSeasonWatched, 
               }
               className="mb-3 text-sm text-[var(--pink)] hover:text-[var(--navy)]"
             >
-              {allWatched ? 'Sezonun işaretini kaldır' : 'Tüm sezonu izledim işaretle'}
+              {allWatched ? t.detail.unmarkSeason : t.detail.markSeason}
             </button>
           )}
 
-          {loading && <p className="text-[var(--navy)]/50 text-sm">Yükleniyor...</p>}
+          {loading && <p className="text-[var(--navy)]/50 text-sm">{t.detail.loading}</p>}
 
           <div className="flex flex-col gap-2">
             {seasonData?.episodes?.map((ep) => {

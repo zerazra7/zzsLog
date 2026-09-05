@@ -1,14 +1,16 @@
 import { IMG_BASE } from '../lib/tmdb'
 import { countWatchedEpisodes } from '../lib/storage'
+import { useLanguage } from '../lib/i18n'
 
 export default function MyShowsTab({ shows, onSelect }) {
+  const { t } = useLanguage()
   const list = Object.values(shows).sort((a, b) => b.addedAt - a.addedAt)
 
   if (list.length === 0) {
     return (
       <div className="max-w-3xl mx-auto px-4 py-16 text-center text-[var(--navy)]/50">
-        <p>Henüz listende dizi yok.</p>
-        <p className="text-sm mt-1">"Ara" sekmesinden dizi ekleyebilirsin.</p>
+        <p>{t.shows.empty1}</p>
+        <p className="text-sm mt-1">{t.shows.empty2}</p>
       </div>
     )
   }
@@ -33,7 +35,7 @@ export default function MyShowsTab({ shows, onSelect }) {
           <div className="p-3">
             <p className="font-medium text-sm leading-tight text-[var(--navy)]">{show.name}</p>
             <p className="text-xs text-[var(--navy)]/50 mt-1">
-              {countWatchedEpisodes(show)} bölüm izlendi
+              {countWatchedEpisodes(show)} {t.shows.watched}
             </p>
           </div>
         </button>
