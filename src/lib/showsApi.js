@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient'
 
-function rowToShow(row) {
+export function rowToShow(row) {
   return {
     id: row.tmdb_id,
     name: row.name,
@@ -11,10 +11,11 @@ function rowToShow(row) {
   }
 }
 
-export async function fetchShows() {
+export async function fetchShowsForUser(userId) {
   const { data, error } = await supabase
     .from('shows')
     .select('*')
+    .eq('user_id', userId)
     .order('added_at', { ascending: false })
   if (error) throw error
   const map = {}

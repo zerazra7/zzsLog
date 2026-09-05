@@ -6,7 +6,7 @@ const translations = {
   tr: {
     appName: 'zzsLog',
     greeting: 'Selam tatlım :>',
-    tabs: { shows: 'Dizilerim', search: 'Ara', stats: 'İstatistik', profile: 'Profilim' },
+    tabs: { shows: 'Dizilerim', search: 'Ara', stats: 'İstatistik', people: 'Kişiler', profile: 'Profilim' },
     auth: {
       signInTitle: 'Hesabına giriş yap',
       signUpTitle: 'Yeni hesap oluştur',
@@ -64,11 +64,19 @@ const translations = {
       language: 'Dil',
       signOut: 'Çıkış yap',
     },
+    people: {
+      empty: 'Henüz kimse yok.',
+      wallTitle: 'Profil duvarı',
+      wallWarning: 'Buraya bırakılan mesajları uygulamadaki herkes görebilir.',
+      messagePlaceholder: 'Bir mesaj bırak... (ör. hey vay be!)',
+      send: 'Gönder',
+      noMessages: 'Henüz mesaj yok.',
+    },
   },
   en: {
     appName: 'zzsLog',
     greeting: 'Hello sweeetie :>',
-    tabs: { shows: 'My Shows', search: 'Search', stats: 'Stats', profile: 'Profile' },
+    tabs: { shows: 'My Shows', search: 'Search', stats: 'Stats', people: 'People', profile: 'Profile' },
     auth: {
       signInTitle: 'Sign in to your account',
       signUpTitle: 'Create a new account',
@@ -125,6 +133,14 @@ const translations = {
       emailLabel: 'Email',
       language: 'Language',
       signOut: 'Sign out',
+    },
+    people: {
+      empty: 'No one here yet.',
+      wallTitle: 'Profile wall',
+      wallWarning: 'Anyone using the app can see messages left here.',
+      messagePlaceholder: 'Leave a message... (e.g. hey wow!)',
+      send: 'Send',
+      noMessages: 'No messages yet.',
     },
   },
 }

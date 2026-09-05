@@ -6,8 +6,9 @@ import ShowDetail from './components/ShowDetail'
 import Auth from './components/Auth'
 import ResetPassword from './components/ResetPassword'
 import ProfileTab from './components/ProfileTab'
+import PeopleTab from './components/PeopleTab'
 import { supabase } from './lib/supabaseClient'
-import { fetchShows, insertShow, deleteShow, updateWatched } from './lib/showsApi'
+import { fetchShowsForUser, insertShow, deleteShow, updateWatched } from './lib/showsApi'
 import { toggleEpisode, setSeasonWatched } from './lib/storage'
 import { useLanguage } from './lib/i18n'
 
@@ -32,7 +33,7 @@ function App() {
 
   useEffect(() => {
     if (session) {
-      fetchShows().then(setShows).catch(console.error)
+      fetchShowsForUser(session.user.id).then(setShows).catch(console.error)
     } else {
       setShows({})
     }
@@ -83,6 +84,7 @@ function App() {
     { id: 'shows', label: t.tabs.shows },
     { id: 'search', label: t.tabs.search },
     { id: 'stats', label: t.tabs.stats },
+    { id: 'people', label: t.tabs.people },
     { id: 'profile', label: t.tabs.profile },
   ]
 
@@ -99,7 +101,8 @@ function App() {
           <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
         )}
         {tab === 'stats' && <StatsTab shows={shows} />}
-        {tab === 'profile' && <ProfileTab email={session.user.email} />}
+        {tab === 'people' && <PeopleTab myId={session.user.id} />}
+        {tab === 'profile' && <ProfileTab email={session.user.email} myId={session.user.id} />}
       </main>
 
       <nav className="fixed bottom-0 inset-x-0 bg-[var(--navy)] flex">
