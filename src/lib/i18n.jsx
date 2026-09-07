@@ -41,6 +41,9 @@ const translations = {
       empty1: 'Henüz listende dizi yok.',
       empty2: '"Ara" sekmesinden dizi ekleyebilirsin.',
       watched: 'bölüm izlendi',
+      notStarted: 'Başlanmadı',
+      watching: 'İzleniyor',
+      completed: 'Tamamlandı',
     },
     stats: {
       showsLabel: 'Dizi',
@@ -135,6 +138,9 @@ const translations = {
       empty1: "You don't have any shows yet.",
       empty2: 'Add one from the "Search" tab.',
       watched: 'episodes watched',
+      notStarted: 'Not started',
+      watching: 'Watching',
+      completed: 'Completed',
     },
     stats: {
       showsLabel: 'Shows',

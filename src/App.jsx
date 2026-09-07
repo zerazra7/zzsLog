@@ -137,7 +137,11 @@ function App() {
       <main className="flex-1 pb-20">
         {tab === 'search' && <SearchTab shows={shows} onAdd={handleAddFromSearch} />}
         {tab === 'shows' && (
-          <MyShowsTab shows={shows} onSelect={(show) => setSelectedId(show.id)} />
+          <MyShowsTab
+            shows={shows}
+            onSelect={(show) => setSelectedId(show.id)}
+            onToggleEpisode={handleToggleEpisode}
+          />
         )}
         {tab === 'stats' && <StatsTab shows={shows} />}
         {tab === 'people' && (
