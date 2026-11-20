@@ -4,6 +4,10 @@ A TV show tracker for me and my friends, inspired by TV Time. You add the shows 
 
 **Live: [zzslog.vercel.app](https://zzslog.vercel.app)** (can be added to the phone home screen like an app)
 
+<p align="center">
+  <img src="screenshots/my-shows.png" alt="My Shows list" width="90%"/>
+</p>
+
 ## Features
 
 - **Search** any TV show through the TMDB API and add it to your list
