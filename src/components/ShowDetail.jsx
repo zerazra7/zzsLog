@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getShowDetails, getSeasonDetails, IMG_BASE } from '../lib/tmdb'
+import { getShowDetails, getSeasonDetails } from '../lib/tmdb'
 import { countWatchedEpisodes, allEpisodesWatchedMap } from '../lib/storage'
 import { useLanguage } from '../lib/i18n'
 

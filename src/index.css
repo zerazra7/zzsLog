@@ -34,36 +34,3 @@ body {
   background: var(--pink-soft);
   border-radius: 4px;
 }
-
-@keyframes heartFloatUp {
-  0% {
-    transform: translateY(0) scale(0.5) rotate(-10deg);
-    opacity: 0;
-  }
-  12% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-115vh) scale(1.15) rotate(12deg);
-    opacity: 0;
-  }
-}
-
-@keyframes heartPulse {
-  0% {
-    transform: scale(0.6);
-    opacity: 0;
-  }
-  25% {
-    transform: scale(1.15);
-    opacity: 1;
-  }
-  75% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
-}

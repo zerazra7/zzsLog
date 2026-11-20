@@ -8,10 +8,8 @@ import ResetPassword from './components/ResetPassword'
 import ProfileTab from './components/ProfileTab'
 import PeopleTab from './components/PeopleTab'
 import WelcomeModal from './components/WelcomeModal'
-import HeartsOverlay from './components/HeartsOverlay'
 import { supabase } from './lib/supabaseClient'
 
-const HEARTS_EMAIL = 'matcev12@gmail.com'
 import {
   fetchShowsForUser,
   insertShow,
@@ -31,7 +29,6 @@ function App() {
   const [selectedId, setSelectedId] = useState(null)
   const [passwordRecovery, setPasswordRecovery] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
-  const [showHearts, setShowHearts] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setSession(data.session))
@@ -49,11 +46,6 @@ function App() {
       fetchShowsForUser(session.user.id).then(setShows).catch(console.error)
       if (!localStorage.getItem('zzslog:welcomeSeen')) {
         setShowWelcome(true)
-      }
-      if (session.user.email?.toLowerCase() === HEARTS_EMAIL) {
-        setShowHearts(true)
-        const timeout = setTimeout(() => setShowHearts(false), 6000)
-        return () => clearTimeout(timeout)
       }
     } else {
       setShows({})
@@ -186,8 +178,6 @@ function App() {
       )}
 
       {showWelcome && <WelcomeModal onClose={handleCloseWelcome} />}
-
-      {showHearts && <HeartsOverlay />}
     </div>
   )
 }
